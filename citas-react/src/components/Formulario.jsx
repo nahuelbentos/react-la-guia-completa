@@ -10,7 +10,6 @@ const Formulario = ({pacientes, setPacientes, paciente}) => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    console.log(paciente);
     if (Object.keys(paciente).length) {
       setNombre(paciente.nombre);
       setNombrePropietario(paciente.nombrePropietario);
@@ -44,6 +43,7 @@ const Formulario = ({pacientes, setPacientes, paciente}) => {
       newPaciente.id = paciente.id;
       const pacientesActualizados = pacientes.map( p => p.id === newPaciente.id ? newPaciente : p);
       setPacientes(pacientesActualizados);
+      setPaciente({})
 
     }else {
       newPaciente.id = generarId();
