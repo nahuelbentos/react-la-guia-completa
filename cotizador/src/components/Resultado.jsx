@@ -1,18 +1,23 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import useCotizador from '../hooks/useCotizador';
 import { MARCAS, PLANES } from '../constants/index';
 
 export const Resultado = () => {
   const {resultado, datos} = useCotizador();
   const {marca, plan, year} = datos;
-  const yearRef = useRef(year)
+  
+  //useRef, el objeto devuelto se mantendrá persistente durante la vida completa del componente. 
+  //el valor 'current' seria el primer valor que tenga la variable year cuando se crea el componente.
+  const yearRef = useRef(year);
   console.log(yearRef);
 
   
   //useCallback, se ejecuta la funcion cuando cambia alguna propiedad del array de dependencias.
   //En este caso, cuanda cambia la dependencia 'resultado' se dispara la funcion del useCallback 'MARCAS.find'
   const nombreMarca =  useCallback( MARCAS.find(m => m.id === Number(marca))?.nombre, [resultado] ) ;
-  const nombrePlan = useCallback(PLANES.find(p => p.id === Number(plan))?.nombre, [resultado]);
+  
+  //Muy similar a useCallback pero se ejecuta mediante una funcion previa.
+  const nombrePlan = useMemo(() => PLANES.find(p => p.id === Number(plan))?.nombre, [resultado]);
 
   if(resultado === 0) return null;
 
